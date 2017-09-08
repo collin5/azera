@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1000052007071",
+    "firebase_url": "https://azera-30f0b.firebaseio.com",
+    "project_id": "azera-30f0b",
+    "storage_bucket": "azera-30f0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000052007071:android:efc5aa6aad70a15a",
+        "android_client_info": {
+          "package_name": "com.andela.hackathon.azera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000052007071-cv6mcbrpst61r144jnrnu6hbc7n8g475.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andela.hackathon.azera",
+            "certificate_hash": "cf0bc7eb45c14912652399c88e4c5f3df03a1054"
+          }
+        },
+        {
+          "client_id": "1000052007071-qmr26n8fftp853t99hp97tunvvke864a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7B8DJhV-xaopQVYa0XlNcM_JkOdRYql4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000052007071-qmr26n8fftp853t99hp97tunvvke864a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
