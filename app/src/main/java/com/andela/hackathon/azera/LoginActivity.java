@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 						if (task.isSuccessful()) {
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
+							createUserObj(user);
 							updateUI(true);
 						} else {
 							// If sign in fails, display a message to the user.
@@ -132,6 +133,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 						}
 					}
 				});
+	}
+
+	private void createUserObj(FirebaseUser user) {
+
 	}
 
 }
