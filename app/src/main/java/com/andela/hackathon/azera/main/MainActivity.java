@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.andela.hackathon.azera.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager pager;
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initTabs();
         initPager();
+        initTabs();
     }
 
     private void initPager(){
@@ -53,6 +53,23 @@ public class MainActivity extends AppCompatActivity {
             // use camera icon for scan tab instead of text
             tabLayout.getTabAt(0).setText(null).setIcon(R.drawable.ic_camera);
         }
+
+        tabLayout.addOnTabSelectedListener(this);
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        pager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
 }

@@ -27,7 +27,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                 return new MainPagerAdapter.Scan();
             case 1:
                 return new MainPagerAdapter.Pending();
-            case 3:
+            case 2:
                 return new MainPagerAdapter.Approved();
             default:
                 return null;
