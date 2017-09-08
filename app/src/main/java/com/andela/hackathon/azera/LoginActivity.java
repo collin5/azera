@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
 				mAuth = FirebaseAuth.getInstance();
-				Log.d(TAG, "Creating activity");
+				mStatusText = (TextView) findViewById(R.id.txt_status_text);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             .build();
 
 				mGoogleApiClient = new GoogleApiClient.Builder(this)
-					.enableAutoManage(this, null)
 					.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 					.build();
 
@@ -56,10 +55,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		@Override
 		public void onStart() {
 			super.onStart();
+			mGoogleApiClient.connect();
 			// Check if user is signed in (non-null) and update UI accordingly.
 			FirebaseUser currentUser = mAuth.getCurrentUser();
-			Log.d(TAG, currentUser.toString());
 			updateUI(true);
+		}
+
+		@Override
+		public void onStop() {
+			super.onStop();
+			mGoogleApiClient.disconnect();
 		}
 
 		@Override public void onClick(View view) {
@@ -89,10 +94,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		if (result.isSuccess()) {
 			// Signed in successfully, show authenticated UI.
 			GoogleSignInAccount acct = result.getSignInAccount();
-			//mStatusText.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+			mStatusText.setText(acct.getDisplayName());
 			firebaseAuthWithGoogle(acct);
-			updateUI(true);
 		} else {
+			// Sign in failed, show error page
 			mStatusText.setText(R.string.login_error);
 			updateUI(false);
 		}
@@ -115,7 +120,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 					@Override
 					public void onComplete(@NonNull Task<AuthResult> task) {
 						if (task.isSuccessful()) {
-							// Sign in success, update UI with the signed-in user's information
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
 							updateUI(true);
@@ -126,8 +130,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 									Toast.LENGTH_SHORT).show();
 							updateUI(false);
 						}
-
-						// ...
 					}
 				});
 	}
