@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 	private static final String TAG = "Login";
@@ -94,8 +95,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		if (result.isSuccess()) {
 			// Signed in successfully, show authenticated UI.
 			GoogleSignInAccount acct = result.getSignInAccount();
+
 			mStatusText.setText(acct.getDisplayName());
-			firebaseAuthWithGoogle(acct);
+			String email = acct.getEmail();
+
+			if (Objects.equals(email.substring(email.indexOf("@") + 1), "andela.com")) {
+				firebaseAuthWithGoogle(acct);
+			} else {
+				Toast.makeText(LoginActivity.this, "Only Andela emails can be used!",
+						Toast.LENGTH_SHORT).show();
+				updateUI(false);
+			}
+
 		} else {
 			// Sign in failed, show error page
 			mStatusText.setText(R.string.login_error);
@@ -106,6 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	private void updateUI(boolean status) {
 		if (status) {
 			mStatusText.setText("Going to change UI");
+			Toast.makeText(LoginActivity.this, "Authentication successful",
+					Toast.LENGTH_SHORT).show();
 		} else {
 			mStatusText.setText("Failed");
 		}
