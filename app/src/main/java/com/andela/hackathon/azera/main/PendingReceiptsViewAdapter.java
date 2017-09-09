@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.andela.hackathon.azera.R;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder> {
+public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingReceiptsViewAdapter.MyHolder> {
 	private List<Receipt> receipts;
 	private Context context;
-	private static final String TAG = RecyclerViewAdapter.class.getSimpleName();
+	private static final String TAG = PendingReceiptsViewAdapter.class.getSimpleName();
 
-	public RecyclerViewAdapter(List<Receipt> receipts, Context context) {
+	public PendingReceiptsViewAdapter(List<Receipt> receipts, Context context) {
 		this.receipts = receipts;
 		this.context = context;
 	}

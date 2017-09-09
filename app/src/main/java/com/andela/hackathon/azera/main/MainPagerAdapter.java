@@ -1,19 +1,11 @@
 package com.andela.hackathon.azera.main;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,22 +14,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import android.widget.TextView;
 import com.andela.hackathon.azera.R;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.scanlibrary.ScanActivity;
-import com.scanlibrary.ScanConstants;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -95,7 +80,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			private LinearLayoutManager linearLayoutManager;
 			private FirebaseDatabase database;
 			private DatabaseReference databaseReference;
-			private RecyclerViewAdapter recyclerViewAdapter;
+			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
 			private TextView receiptName;
 
     	View view;
@@ -145,11 +130,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 						});
 
 
-					recyclerViewAdapter = new RecyclerViewAdapter(receipts, view.getContext());
+					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
 					RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 2);
 					recyclerView.setLayoutManager(recycle);
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
-					recyclerView.setAdapter(recyclerViewAdapter);
+					recyclerView.setAdapter(pendingReceiptsViewAdapter);
 
             return view;
         }
