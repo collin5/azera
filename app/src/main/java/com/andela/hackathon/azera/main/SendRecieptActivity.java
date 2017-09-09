@@ -8,13 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.andela.hackathon.azera.R;
+
+import java.util.ArrayList;
 
 public class SendRecieptActivity extends AppCompatActivity {
 
     ActionBar actionBar;
     AppCompatSpinner categorySpinner;
+
+    ArrayList<String> categories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,12 @@ public class SendRecieptActivity extends AppCompatActivity {
     void initCategories(){
         // setup categories
         categorySpinner = findViewById(R.id.category_spinner);
-        
-
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, categories);
+        categorySpinner.setAdapter(categoriesAdapter);
+        // TODO: 9/9/17 get data from firebase
+        categoriesAdapter.add("Category 1");
+        categoriesAdapter.add("Category 2");
+        categoriesAdapter.notifyDataSetChanged();
     }
 
 }
