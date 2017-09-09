@@ -19,13 +19,12 @@ public class PendingReceiptsAdapter extends RecyclerView.Adapter<RecyclerViewHol
 
 	@Override public RecyclerViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerViewHolders viewHolder = null;
-		View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_pending, parent, false)
-		viewHolder = new RecyclerViewHolders(layoutView, task);
+
 		return viewHolder;
 	}
 
 	@Override public void onBindViewHolder(RecyclerViewHolders holder, int position) {
-		holder.txt_receip cvct_name.setText();
+
 	}
 
 	@Override public int getItemCount() {
