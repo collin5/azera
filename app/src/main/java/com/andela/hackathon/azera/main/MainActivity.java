@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 e.printStackTrace();
             }
         }
+        pager.setCurrentItem(1);
     }
 
 
