@@ -25,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.andela.hackathon.azera.R;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.scanlibrary.ScanActivity;
@@ -103,13 +105,37 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             view = inflater.inflate(R.layout.fragment_pending, container, false);
 						allReceipts = new ArrayList<Task>();
 						databaseReference = FirebaseDatabase.getInstance().getReference();
+
 						recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
 						linearLayoutManager = new LinearLayoutManager(view.getContext());
 						recyclerView.setLayoutManager(linearLayoutManager);
 						receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
 						recyclerView.setLayoutManager(linearLayoutManager);
 
-						pendingReceiptsAdapter = new PendingReceiptsAdapter();
+
+					databaseReference.addChildEventListener(new ChildEventListener() {
+						@Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+							Log.d(TAG, "onChildAdded: " + dataSnapshot);
+						}
+
+						@Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+							Log.d(TAG, "onChildAdded: " + dataSnapshot);
+						}
+
+						@Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+							Log.d(TAG, "onChildAdded: " + dataSnapshot);
+						}
+
+						@Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+							Log.d(TAG, "onChildAdded: " + dataSnapshot);
+						}
+
+						@Override public void onCancelled(DatabaseError databaseError) {
+						}
+					});
+
+
+					//pendingReceiptsAdapter = new PendingReceiptsAdapter(dataSet);
 
             return view;
         }
