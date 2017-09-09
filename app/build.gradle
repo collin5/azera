@@ -26,6 +26,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:11.2.2'
     implementation 'com.google.android.gms:play-services-auth:11.2.2'
     implementation 'com.google.firebase:firebase-database:11.2.2'
+    implementation 'com.google.firebase:firebase-storage:11.2.2'
     compile project(':scanlibrary')
     implementation 'com.android.support:design:26.0.2'
     testImplementation 'junit:junit:4.12'
@@ -35,5 +36,6 @@ dependencies {
 
 
 apply plugin: 'com.google.gms.google-services'
+
 
 

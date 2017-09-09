@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     protected void onResume() {
         super.onResume();
+        pager.setCurrentItem(1);
         checkLoginStatus();
     }
 
