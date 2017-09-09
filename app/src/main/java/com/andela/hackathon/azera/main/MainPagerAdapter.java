@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 import com.andela.hackathon.azera.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,15 +79,15 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			private ArrayList<Receipt> receipts;
 			private RecyclerView recyclerView;
 			private LinearLayoutManager linearLayoutManager;
-			private FirebaseDatabase database;
-			private DatabaseReference databaseReference;
+			private FirebaseDatabase database = FirebaseDatabase.getInstance();
+			private DatabaseReference databaseReference = database.getReference("receipts");
 			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
 			private TextView receiptName;
 
     	View view;
 
 
-        @Nullable
+			@Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             view = inflater.inflate(R.layout.fragment_pending, container, false);
@@ -97,45 +98,71 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 						recyclerView.setLayoutManager(linearLayoutManager);
 					  receipts = new ArrayList<Receipt>();
 
+						pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
+						recyclerView.setItemAnimator(new DefaultItemAnimator());
+						recyclerView.setAdapter(pendingReceiptsViewAdapter);
+
 						Log.d(TAG, "Getting database reference");
 
-						database = FirebaseDatabase.getInstance();
-						databaseReference = database.getReference("receipts");
+
+					//int i = 9;
+
+					//for(int i=0; i<9; i++) {
+					//	Receipt receipt = new Receipt();
+					//	receipt.setCategory("Cat " + i);
+					//	receipt.setTags("Tag " + i);
+					//	receipt.setStatus("Status " + i);
+					//	receipt.setImageUrl("src " + i);
+					//
+					//	receipts.add(receipt);
+					//}
+					Log.w(TAG, "My data: " + receipts);
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
-							@Override public void onDataChange(DataSnapshot dataSnapshot) {
-								receipts = new ArrayList<Receipt>();
-								for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-								  Receipt value = dataSnapshot1.getValue(Receipt.class);
-								  Receipt receipt = new Receipt();
-									String category = value.getCategory();
-									String tag = value.getTags();
-									String status = value.getStatus();
-									String imgUrl = value.getImageUrl();
-									String userID = value.getUser_id();
+						@Override public void onDataChange(DataSnapshot dataSnapshot) {
+							Log.d("now_working","awesome");
+						}
 
-									receipt.setCategory(category);
-									receipt.setTags(tag);
-									receipt.setStatus(status);
-									receipt.setImageUrl(imgUrl);
-									receipt.setImageUrl(userID);
+						@Override public void onCancelled(DatabaseError databaseError) {
 
-									Log.d(TAG, "Data returned: " + value);
-									receipts.add(receipt);
-								}
-							}
-
-							@Override public void onCancelled(DatabaseError databaseError) {
-								Log.w(TAG, "Get data Error: " + databaseError.toException());
-							}
-						});
+						}
+					});
 
 
-					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-					RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 1);
-					recyclerView.setLayoutManager(recycle);
-					recyclerView.setItemAnimator(new DefaultItemAnimator());
-					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+
+					//databaseReference.addValueEventListener(new ValueEventListener() {
+					//		@Override public void onDataChange(DataSnapshot dataSnapshot) {
+					//			receipts = new ArrayList<Receipt>();
+					//			for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+					//			  Receipt value = dataSnapshot1.getValue(Receipt.class);
+					//			  Receipt receipt = new Receipt();
+					//				String category = value.getCategory();
+					//				String tag = value.getTags();
+					//				String status = value.getStatus();
+					//				String imgUrl = value.getImageUrl();
+					//				String userID = value.getUser_id();
+					//
+					//				receipt.setCategory(category);
+					//				receipt.setTags(tag);
+					//				receipt.setStatus(status);
+					//				receipt.setImageUrl(imgUrl);
+					//				receipt.setImageUrl(userID);
+					//
+					//				Log.d(TAG, "Data returned: " + value);
+					//				receipts.add(receipt);
+					//				recyclerView.getAdapter().notifyDataSetChanged();
+					//			}
+					//		}
+					//
+					//		@Override public void onCancelled(DatabaseError databaseError) {
+					//			Log.w(TAG, "Get data Error: " + databaseError.toException());
+					//		}
+					//	});
+
+
+
+					//RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 1);
+					//recyclerView.setLayoutManager(recycle);
 
             return view;
         }
