@@ -14,18 +14,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import android.widget.TextView;
 import com.andela.hackathon.azera.R;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by collins on 9/8/17.
@@ -35,6 +43,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public MainPagerAdapter(FragmentManager fm) {
         super(fm);
     }
+    public static final String TAG = MainPagerAdapter.class.getSimpleName();
 
     @Override
     public Fragment getItem(int position) {
@@ -78,15 +87,40 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     public static class Pending extends Fragment{
 
-        View view;
+			private ArrayList<Task> allReceipts;
+			private RecyclerView recyclerView;
+			private LinearLayoutManager linearLayoutManager;
+			private DatabaseReference databaseReference;
+			private PendingReceiptsAdapter pendingReceiptsAdapter;
+			private TextView receiptName;
+
+    	View view;
+
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             view = inflater.inflate(R.layout.fragment_pending, container, false);
+						allReceipts = new ArrayList<Task>();
+						databaseReference = FirebaseDatabase.getInstance().getReference();
+						recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
+						linearLayoutManager = new LinearLayoutManager(view.getContext());
+						recyclerView.setLayoutManager(linearLayoutManager);
+						receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
+						recyclerView.setLayoutManager(linearLayoutManager);
+
+						pendingReceiptsAdapter = new PendingReceiptsAdapter();
+
             return view;
         }
-    }
+
+        public void getAllReceipts(DataSnapshot dataSnapshot) {
+        	for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+        		String title = singleSnapshot.getValue(String.class);
+
+					}
+				}
+		}
 
     public static class Approved extends Fragment{
 
