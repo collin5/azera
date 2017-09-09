@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1000052007071-mp1tm6fo4vd35smi820u04258ijdabvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andela.hackathon.azera",
+            "certificate_hash": "7d8c241c469e56084f48b3d8ba36d4275326b6ed"
+          }
+        },
+        {
           "client_id": "1000052007071-cv6mcbrpst61r144jnrnu6hbc7n8g475.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
