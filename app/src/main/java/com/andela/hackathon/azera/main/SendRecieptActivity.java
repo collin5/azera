@@ -1,5 +1,6 @@
 package com.andela.hackathon.azera.main;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,12 +10,17 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.andela.hackathon.azera.R;
 
 import java.util.ArrayList;
 
 public class SendRecieptActivity extends AppCompatActivity {
+
+    ImageView preview;
+
+    Bitmap reciept = null;
 
     ActionBar actionBar;
     AppCompatSpinner categorySpinner;
@@ -25,13 +31,17 @@ public class SendRecieptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_reciept);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        preview = findViewById(R.id.reciept_preview);
+        preview.setImageBitmap(Statics.bitmap);
+
         initCategories();
 
         initActionbar();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +55,7 @@ public class SendRecieptActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
 
     void initCategories(){
         // setup categories
