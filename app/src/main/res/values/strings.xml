@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Azera</string>
+    <string name="login_error">Sorry, login was not successful.</string>
+    <string name="login_success">Welcome</string>
 </resources>
