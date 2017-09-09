@@ -1,9 +1,17 @@
 package com.andela.hackathon.azera.main;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,12 +21,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.andela.hackathon.azera.R;
+import com.scanlibrary.ScanActivity;
+import com.scanlibrary.ScanConstants;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager pager;
 
+    private static final int REQUEST_CODE = 99;
 
     private FloatingActionButton fab;
     private boolean fabState = true;
@@ -64,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         tabLayout.addOnTabSelectedListener(this);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        pager.setCurrentItem(1);
     }
 
 
@@ -72,13 +87,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         pager.setCurrentItem(tab.getPosition());
         switch (tab.getPosition()){
             case 0:
-                fab.show();
+                fab.hide();
+                try {
+                    scan();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 1:
-                fab.hide();
+                fab.show();
                 break;
             case 2:
-                fab.hide();
+                fab.show();
                 break;
         }
     }
@@ -93,5 +113,35 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment: getSupportFragmentManager().getFragments()){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
+
+    void scan() throws IOException {
+        File tempFile = null;
+        tempFile = File.createTempFile("photo", ".jpg", this.getCacheDir());
+        tempFile.setWritable(true, false);
+
+        Intent intent = new Intent(this, ScanActivity.class);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, ScanConstants.OPEN_CAMERA);
+
+        //request camera permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            //ask for authorisation
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 50);
+        else
+            startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pager.setCurrentItem(1);
+    }
 }

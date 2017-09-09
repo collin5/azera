@@ -1,15 +1,31 @@
 package com.andela.hackathon.azera.main;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.andela.hackathon.azera.R;
+import com.scanlibrary.ScanActivity;
+import com.scanlibrary.ScanConstants;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by collins on 9/8/17.
@@ -49,6 +65,15 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             view = inflater.inflate(R.layout.fragment_scan, container, false);
             return view;
         }
+
+
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+        }
+
     }
 
     public static class Pending extends Fragment{
