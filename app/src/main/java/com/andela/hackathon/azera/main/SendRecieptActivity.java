@@ -8,11 +8,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.andela.hackathon.azera.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -21,6 +27,9 @@ public class SendRecieptActivity extends AppCompatActivity {
     ImageView preview;
 
     Bitmap reciept = null;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dbRef = database.getReference("categories");
 
     ActionBar actionBar;
     AppCompatSpinner categorySpinner;
@@ -60,12 +69,29 @@ public class SendRecieptActivity extends AppCompatActivity {
     void initCategories(){
         // setup categories
         categorySpinner = findViewById(R.id.category_spinner);
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, categories);
+        categories.add("Select category");
+        final ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, categories);
         categorySpinner.setAdapter(categoriesAdapter);
-        // TODO: 9/9/17 get data from firebase
-        categoriesAdapter.add("Category 1");
-        categoriesAdapter.add("Category 2");
-        categoriesAdapter.notifyDataSetChanged();
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Category category = snapshot.getValue(Category.class);
+                    category.id = dataSnapshot.getKey();
+                    categoriesAdapter.add(category.name);
+                    categoriesAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("DB_ERROR", "Failed to read value.", error.toException());
+            }
+        });
     }
 
+    public static class Category{
+        public String id;
+        public String name;
+    }
 }
