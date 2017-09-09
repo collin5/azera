@@ -14,6 +14,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -77,8 +80,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             return view;
         }
 
-
-
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -89,11 +90,12 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     public static class Pending extends Fragment{
 
-			private ArrayList<Task> allReceipts;
+			private ArrayList<Receipt> receipts;
 			private RecyclerView recyclerView;
 			private LinearLayoutManager linearLayoutManager;
+			private FirebaseDatabase database;
 			private DatabaseReference databaseReference;
-			private PendingReceiptsAdapter pendingReceiptsAdapter;
+			private RecyclerViewAdapter recyclerViewAdapter;
 			private TextView receiptName;
 
     	View view;
@@ -103,59 +105,54 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             view = inflater.inflate(R.layout.fragment_pending, container, false);
-						allReceipts = new ArrayList<Task>();
-						databaseReference = FirebaseDatabase.getInstance().getReference();
-
 						recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
 						linearLayoutManager = new LinearLayoutManager(view.getContext());
 						recyclerView.setLayoutManager(linearLayoutManager);
 						receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
 						recyclerView.setLayoutManager(linearLayoutManager);
 
+						Log.d(TAG, "Getting database reference");
 
-					databaseReference.addChildEventListener(new ChildEventListener() {
-						@Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-							Log.d(TAG, "onChildAdded: " + dataSnapshot);
-						}
-
-						@Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-							Log.d(TAG, "onChildAdded: " + dataSnapshot);
-						}
-
-						@Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-							Log.d(TAG, "onChildAdded: " + dataSnapshot);
-						}
-
-						@Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-							Log.d(TAG, "onChildAdded: " + dataSnapshot);
-						}
-
-						@Override public void onCancelled(DatabaseError databaseError) {
-							Log.d(TAG, "onDatabaseError: " + databaseError);
-						}
-					});
+						database = FirebaseDatabase.getInstance();
+						databaseReference = database.getReference("receipts");
 
 
-					//pendingReceiptsAdapter = new PendingReceiptsAdapter(dataSet);
+					databaseReference.addValueEventListener(new ValueEventListener() {
+							@Override public void onDataChange(DataSnapshot dataSnapshot) {
+								receipts = new ArrayList<Receipt>();
+								for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+								  Receipt value = dataSnapshot1.getValue(Receipt.class);
+								  Receipt receipt = new Receipt();
+									String category = value.getCategory();
+									String tag = value.getTags();
+									String status = value.getStatus();
+									String imgUrl = value.getImageUrl();
+									String userID = value.getUser_id();
+
+									receipt.setCategory(category);
+									receipt.setTags(tag);
+									receipt.setStatus(status);
+									receipt.setImageUrl(imgUrl);
+									receipt.setImageUrl(userID);
+
+									Log.d(TAG, "Data returned: " + value);
+								}
+							}
+
+							@Override public void onCancelled(DatabaseError databaseError) {
+								Log.w(TAG, "Get data Error: " + databaseError.toException());
+							}
+						});
+
+
+					recyclerViewAdapter = new RecyclerViewAdapter(receipts, view.getContext());
+					RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 2);
+					recyclerView.setLayoutManager(recycle);
+					recyclerView.setItemAnimator(new DefaultItemAnimator());
+					recyclerView.setAdapter(recyclerViewAdapter);
 
             return view;
         }
-
-			//private void getAllTask(DataSnapshot dataSnapshot){
-			//	for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-			//		String taskTitle = singleSnapshot.getValue(String.class);
-			//		allReceipts.add(new Task(taskTitle));
-			//		pendingReceiptsAdapter = new PendingReceiptsAdapter(view.getContext(), allReceipts);
-			//		recyclerView.setAdapter(recyclerViewAdapter);
-			//	}
-			//}
-
-        public void getAllReceipts(DataSnapshot dataSnapshot) {
-        	for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-        		String title = singleSnapshot.getValue(String.class);
-
-					}
-				}
 		}
 
     public static class Approved extends Fragment{

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.andela.hackathon.azera.R;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyHolder> {
 	private List<Receipt> receipts;
 	private Context context;
 	private static final String TAG = RecyclerViewAdapter.class.getSimpleName();
@@ -21,13 +21,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 	}
 
 	@Override
-	public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(context).inflate(R.layout.fragment_pending, parent, false);
-		RecyclerViewAdapter.ViewHolder myHolder = new RecyclerViewAdapter.ViewHolder(view);
+		MyHolder myHolder = new MyHolder(view);
 		return myHolder;
 	}
 
-	@Override public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
+	@Override public void onBindViewHolder(MyHolder holder, int position) {
 		Receipt receipt_list = receipts.get(position);
 		holder.receipt_name.setText(
 				String.format("%s %s", receipt_list.getCategory(), receipt_list.getTags()));
@@ -43,13 +43,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 			Log.d(TAG, e.toString());
 		}
 
-		return 0;
+		return arr;
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	public class MyHolder extends RecyclerView.ViewHolder {
 		TextView receipt_name, date_info;
 
-		public ViewHolder(View itemView) {
+		public MyHolder(View itemView) {
 			super(itemView);
 			receipt_name = (TextView) itemView.findViewById(R.id.txt_receipt_name);
 			date_info = (TextView) itemView.findViewById(R.id.txt_date_info);
