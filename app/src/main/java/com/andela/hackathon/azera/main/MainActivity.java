@@ -18,11 +18,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.andela.hackathon.azera.LoginActivity;
+import com.andela.hackathon.azera.Logout;
 import com.andela.hackathon.azera.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -37,11 +43,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private static final int REQUEST_CODE = 99;
 
     private FloatingActionButton fab;
-    private boolean fabState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check login status
+        checkLoginStatus();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,6 +87,14 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout.addOnTabSelectedListener(this);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         pager.setCurrentItem(1);
+    }
+
+    void checkLoginStatus(){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
     }
 
 
@@ -155,6 +170,22 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     protected void onResume() {
         super.onResume();
-        pager.setCurrentItem(1);
+        checkLoginStatus();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout){
+            new Logout().logout();
+            checkLoginStatus();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

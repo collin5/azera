@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.andela.hackathon.azera.main.MainActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -59,6 +61,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 			mGoogleApiClient.connect();
 			// Check if user is signed in (non-null) and update UI accordingly.
 			FirebaseUser currentUser = mAuth.getCurrentUser();
+
+			// send user to MainActivity if authenticated
+
+			if (currentUser !=null){
+				Intent intent = new Intent(this, MainActivity.class);
+				startActivity(intent);
+			}
 			updateUI(true);
 		}
 
@@ -136,7 +145,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
 							createUserObj(user);
-							updateUI(true);
+							Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+							LoginActivity.this.startActivity(intent);
 						} else {
 							// If sign in fails, display a message to the user.
 							Log.w(TAG, "signInWithCredential:failure", task.getException());
