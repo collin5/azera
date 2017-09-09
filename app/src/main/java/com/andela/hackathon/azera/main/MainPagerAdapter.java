@@ -141,14 +141,14 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             return view;
         }
 
-			private void getAllTask(DataSnapshot dataSnapshot){
-				for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-					String taskTitle = singleSnapshot.getValue(String.class);
-					allReceipts.add(new Task(taskTitle));
-					pendingReceiptsAdapter = new PendingReceiptsAdapter(view.getContext(), allReceipts);
-					recyclerView.setAdapter(recyclerViewAdapter);
-				}
-			}
+			//private void getAllTask(DataSnapshot dataSnapshot){
+			//	for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+			//		String taskTitle = singleSnapshot.getValue(String.class);
+			//		allReceipts.add(new Task(taskTitle));
+			//		pendingReceiptsAdapter = new PendingReceiptsAdapter(view.getContext(), allReceipts);
+			//		recyclerView.setAdapter(recyclerViewAdapter);
+			//	}
+			//}
 
         public void getAllReceipts(DataSnapshot dataSnapshot) {
         	for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
