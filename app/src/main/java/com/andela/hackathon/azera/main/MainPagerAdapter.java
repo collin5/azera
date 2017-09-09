@@ -95,12 +95,12 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 						recyclerView.setLayoutManager(linearLayoutManager);
 						receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
 						recyclerView.setLayoutManager(linearLayoutManager);
+					  receipts = new ArrayList<Receipt>();
 
 						Log.d(TAG, "Getting database reference");
 
 						database = FirebaseDatabase.getInstance();
 						databaseReference = database.getReference("receipts");
-
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
 							@Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -121,6 +121,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 									receipt.setImageUrl(userID);
 
 									Log.d(TAG, "Data returned: " + value);
+									receipts.add(receipt);
 								}
 							}
 
@@ -131,7 +132,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
 
 					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-					RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 2);
+					RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 1);
 					recyclerView.setLayoutManager(recycle);
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 					recyclerView.setAdapter(pendingReceiptsViewAdapter);
