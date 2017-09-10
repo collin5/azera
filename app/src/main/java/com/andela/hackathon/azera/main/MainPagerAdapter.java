@@ -99,18 +99,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					receipts = new ArrayList<Receipt>();
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-					// TODO Remove this after testing
-					for(int i=0; i<1; i++){
-						Receipt receipt = new Receipt(
-								"TeenCode",
-								"#Nairobits",
-								"https://avatars0.githubusercontent.com/u/1342004?v=4&s=400",
-								"pending",
-								currentUser.getUid(),
-								"Some Desc");
-						receipts.add(receipt);
-					}
-
 					Log.d(TAG, "Data created: " + receipts);
 					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, recyclerView.getContext());
 					recyclerView.setAdapter(pendingReceiptsViewAdapter);
@@ -140,13 +128,54 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 		}
 
     public static class Approved extends Fragment{
+			private ArrayList<Receipt> receipts;
+			private RecyclerView recyclerView;
+			private LinearLayoutManager linearLayoutManager;
+			private FirebaseDatabase database = FirebaseDatabase.getInstance();
+			private DatabaseReference databaseReference = database.getReference("receipts");
+			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
 
         View view;
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_approved, container, false);
+					view = inflater.inflate(R.layout.fragment_approved, container, false);
+
+					FirebaseAuth mAuth = FirebaseAuth.getInstance();
+					final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+					recyclerView = (RecyclerView) view.findViewById(R.id.approved_list);
+					linearLayoutManager = new LinearLayoutManager(view.getContext());
+					recyclerView.setLayoutManager(linearLayoutManager);
+
+					receipts = new ArrayList<Receipt>();
+					recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+					Log.d(TAG, "Data created: " + receipts);
+					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, recyclerView.getContext());
+					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+
+					databaseReference.addValueEventListener(new ValueEventListener() {
+						@Override public void onDataChange(DataSnapshot dataSnapshot) {
+							receipts = new ArrayList<Receipt>();
+							for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+								Receipt value = dataSnapshot1.getValue(Receipt.class);
+								if (value != null && value.status.equals("approved") && value.user_id.equals(
+										currentUser.getUid())) {
+									receipts.add(value);
+								}
+							}
+							Log.w(TAG, "Approved Receipts : " + receipts);
+							pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
+							recyclerView.setAdapter(pendingReceiptsViewAdapter);
+						}
+
+						@Override public void onCancelled(DatabaseError databaseError) {
+							Log.w(TAG, "Database Error: " + databaseError.toException());
+						}
+					});
+
             return view;
         }
     }
