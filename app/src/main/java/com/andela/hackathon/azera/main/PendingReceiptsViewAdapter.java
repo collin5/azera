@@ -33,12 +33,13 @@ public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingRece
 	@Override public void onBindViewHolder(MyHolder holder, int position) {
 		Receipt receipt_list = receipts.get(position);
 		holder.receipt_name.setText(
-				String.format("%s %s %s", receipt_list.category, receipt_list.tags, receipt_list.status));
-		holder.date_info.setText(receipt_list.tags); // TODO Change to date info
-		//Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
-		Picasso.with(context).load(receipt_list.imageUrl).resize(500,500).centerCrop().into(holder.receipt_img);
-		Log.d(TAG, "Image URL: " + receipt_list.imageUrl);
-		Log.d(TAG, "UserID : " + receipt_list.user_id);
+				String.format("%s %s", receipt_list.category, receipt_list.tags));
+		holder.description.setText(receipt_list.description);
+		Picasso.with(context).load(receipt_list.imageUrl)
+				.resize(100,100)
+				.centerCrop()
+				.into(holder.receipt_img);
+		holder.date_info.setText(receipt_list.status);
 	}
 
 	@Override public int getItemCount() {
@@ -46,14 +47,16 @@ public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingRece
 	}
 
 	public class MyHolder extends RecyclerView.ViewHolder {
-		TextView receipt_name, date_info;
+		TextView receipt_name, date_info, description;
 		ImageView receipt_img;
 
 		public MyHolder(View itemView) {
 			super(itemView);
 			receipt_name = (TextView) itemView.findViewById(R.id.txt_receipt_name);
-			date_info = (TextView) itemView.findViewById(R.id.txt_date_info);
+			description = (TextView) itemView.findViewById(R.id.txt_description);
 			receipt_img = (ImageView) itemView.findViewById(R.id.receipt_thumb);
+			date_info = (TextView) itemView.findViewById(R.id.txt_date_created);
+
 		}
 
 	}

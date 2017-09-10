@@ -90,66 +90,31 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			@Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_pending, container, false);
-						recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
-						linearLayoutManager = new LinearLayoutManager(view.getContext());
-						recyclerView.setLayoutManager(linearLayoutManager);
-						receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
+					view = inflater.inflate(R.layout.fragment_pending, container, false);
+					recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
+					linearLayoutManager = new LinearLayoutManager(view.getContext());
+					recyclerView.setLayoutManager(linearLayoutManager);
+					receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
 
-					  receipts = new ArrayList<Receipt>();
-
-					//int i = 9;
-					//Log.d(TAG, "Creating dummy data");
-					//for(int i=0; i<9; i++) {
-					//	Receipt receipt = new Receipt();
-					//	receipt.setCategory("Cat " + i);
-					//	receipt.setTags("Tag " + i);
-					//	receipt.setStatus("Status " + i);
-					//	receipt.setImageUrl("src " + i);
-					//
-					//	receipts.add(receipt);
-					//}
-					//Log.d(TAG, "My data: " + receipts);
-
-
+					receipts = new ArrayList<Receipt>();
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
-							@Override public void onDataChange(DataSnapshot dataSnapshot) {
-								receipts = new ArrayList<Receipt>();
-								for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-								  Receipt value = dataSnapshot1.getValue(Receipt.class);
-									//Receipt receipt = new Receipt();
-									//String category = value.getCategory();
-									//String tag = value.getTags();
-									//String status = value.getStatus();
-									//String imgUrl = value.getImageUrl();
-									//String userID = value.getUser_id();
-									//String description = value.getDescription();
-									//Long createdAt = value.getCreatedAt();
-									//Long updatedAt = value.getUpdatedAt();
-									//
-									//receipt.setCategory(category);
-									//receipt.setTags(tag);
-									//receipt.setStatus(status);
-									//receipt.setImageUrl(imgUrl);
-									//receipt.setImageUrl(userID);
-									//receipt.setDescription(description);
-									//receipt.setCreatedAt(createdAt);
-									//receipt.setUpdatedAt(updatedAt);
-
-
-									receipts.add(value);
-								}
-								Log.w(TAG, "Returned : " + receipts);
-								pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-								recyclerView.setAdapter(pendingReceiptsViewAdapter);
+						@Override public void onDataChange(DataSnapshot dataSnapshot) {
+							receipts = new ArrayList<Receipt>();
+							for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+								Receipt value = dataSnapshot1.getValue(Receipt.class);
+								receipts.add(value);
 							}
+							Log.w(TAG, "Returned : " + receipts);
+							pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
+							recyclerView.setAdapter(pendingReceiptsViewAdapter);
+						}
 
-							@Override public void onCancelled(DatabaseError databaseError) {
-								Log.w(TAG, "Get data Error: " + databaseError.toException());
-							}
-						});
+						@Override public void onCancelled(DatabaseError databaseError) {
+							Log.w(TAG, "Get data Error: " + databaseError.toException());
+						}
+					});
 
             return view;
         }
