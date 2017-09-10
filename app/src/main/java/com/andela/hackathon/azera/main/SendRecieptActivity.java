@@ -34,6 +34,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SendRecieptActivity extends AppCompatActivity {
 
@@ -125,7 +126,7 @@ public class SendRecieptActivity extends AppCompatActivity {
         Statics.bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         // save to db
-        StorageReference recieptRef = storageRef.child("azera/media");
+        StorageReference recieptRef = storageRef.child("azera/media/receipt_".concat(Calendar.getInstance().getTime().toString()));
         UploadTask task = recieptRef.putBytes(baos.toByteArray());
 
         task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
