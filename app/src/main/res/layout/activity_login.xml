@@ -5,8 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.andela.hackathon.azera.LoginActivity"
+    android:id="@+id/layout_Signin"
     >
-
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="match_parent"
+      android:layout_height="367dp"
+      android:scaleType="centerCrop"
+      app:layout_constraintBottom_toTopOf="@+id/imageView2"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="1.0"
+      app:srcCompat="@drawable/doc_scanner"
+      />
+  <ImageView
+      android:id="@+id/imageView2"
+      android:layout_width="386dp"
+      android:layout_height="157dp"
+      android:scaleType="centerCrop"
+      app:layout_constraintBottom_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:srcCompat="@drawable/login_background"
+      />
   <com.google.android.gms.common.SignInButton
       android:id="@+id/sign_in_button"
       android:layout_width="235dp"
@@ -17,8 +40,9 @@
       android:layout_marginTop="8dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.503"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/imageView2"
       />
 
   <TextView
@@ -29,10 +53,28 @@
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:text="Error Msg"
-      android:textColor="#f00"
+      android:textColor="@color/colorPrimaryDark"
       app:layout_constraintEnd_toEndOf="@+id/sign_in_button"
       app:layout_constraintStart_toStartOf="@+id/sign_in_button"
       app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
+      />
+  <TextView
+      android:id="@+id/login_heading"
+      android:layout_width="wrap_content"
+      android:layout_height="29dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/login_heading"
+      android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+      android:textColor="#ffffff"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="@+id/imageView"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/imageView"
+      app:layout_constraintVertical_bias="0.87"
       />
 
 </android.support.constraint.ConstraintLayout>
