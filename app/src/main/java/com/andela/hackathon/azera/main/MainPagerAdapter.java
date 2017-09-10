@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,9 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
 import com.andela.hackathon.azera.R;
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -89,6 +88,9 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			@Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+					FirebaseAuth mAuth = FirebaseAuth.getInstance();
+					final FirebaseUser currentUser = mAuth.getCurrentUser();
+
 					view = inflater.inflate(R.layout.fragment_pending, container, false);
 					recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
 					linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -102,7 +104,10 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 							receipts = new ArrayList<Receipt>();
 							for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
 								Receipt value = dataSnapshot1.getValue(Receipt.class);
-								receipts.add(value);
+								if (value != null && value.status.equals("pending") && value.user_id.equals(
+										currentUser.getUid())) {
+									receipts.add(value);
+								}
 							}
 							Log.w(TAG, "Returned : " + receipts);
 							pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
