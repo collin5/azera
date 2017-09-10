@@ -6,12 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.andela.hackathon.azera.R;
+import com.squareup.picasso.Picasso;
+import java.util.Collections;
 import java.util.List;
 
 public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingReceiptsViewAdapter.MyHolder> {
-	private List<Receipt> receipts;
+	private List<Receipt> receipts = Collections.emptyList();
 	private Context context;
 	private static final String TAG = PendingReceiptsViewAdapter.class.getSimpleName();
 
@@ -22,7 +25,7 @@ public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingRece
 
 	@Override
 	public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(context).inflate(R.layout.fragment_pending, parent, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.item_receipt, parent, false);
 		MyHolder myHolder = new MyHolder(view);
 		return myHolder;
 	}
@@ -30,29 +33,27 @@ public class PendingReceiptsViewAdapter extends RecyclerView.Adapter<PendingRece
 	@Override public void onBindViewHolder(MyHolder holder, int position) {
 		Receipt receipt_list = receipts.get(position);
 		holder.receipt_name.setText(
-				String.format("%s %s", receipt_list.getCategory(), receipt_list.getTags()));
-		holder.date_info.setText(receipt_list.getTags()); // TODO Change to date info
+				String.format("%s %s %s", receipt_list.category, receipt_list.tags, receipt_list.status));
+		holder.date_info.setText(receipt_list.tags); // TODO Change to date info
+		//Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+		Picasso.with(context).load(receipt_list.imageUrl).resize(500,500).centerCrop().into(holder.receipt_img);
+		Log.d(TAG, "Image URL: " + receipt_list.imageUrl);
+		Log.d(TAG, "UserID : " + receipt_list.user_id);
 	}
 
 	@Override public int getItemCount() {
-		int arr = 0;
-
-		try {
-			arr = receipts.size() > 0 ? receipts.size() : 0;
-		} catch(Exception e) {
-			Log.d(TAG, e.toString());
-		}
-
-		return arr;
+		return receipts.size();
 	}
 
 	public class MyHolder extends RecyclerView.ViewHolder {
 		TextView receipt_name, date_info;
+		ImageView receipt_img;
 
 		public MyHolder(View itemView) {
 			super(itemView);
 			receipt_name = (TextView) itemView.findViewById(R.id.txt_receipt_name);
 			date_info = (TextView) itemView.findViewById(R.id.txt_date_info);
+			receipt_img = (ImageView) itemView.findViewById(R.id.receipt_thumb);
 		}
 
 	}
