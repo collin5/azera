@@ -98,15 +98,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 						recyclerView.setLayoutManager(linearLayoutManager);
 					  receipts = new ArrayList<Receipt>();
 
-						pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-						recyclerView.setItemAnimator(new DefaultItemAnimator());
-						recyclerView.setAdapter(pendingReceiptsViewAdapter);
-
-						Log.d(TAG, "Getting database reference");
-
-
 					//int i = 9;
-
+					//Log.d(TAG, "Creating dummy data");
 					//for(int i=0; i<9; i++) {
 					//	Receipt receipt = new Receipt();
 					//	receipt.setCategory("Cat " + i);
@@ -116,53 +109,50 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					//
 					//	receipts.add(receipt);
 					//}
-					Log.w(TAG, "My data: " + receipts);
+					//Log.d(TAG, "My data: " + receipts);
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
-						@Override public void onDataChange(DataSnapshot dataSnapshot) {
-							Log.d("now_working","awesome");
-						}
+							@Override public void onDataChange(DataSnapshot dataSnapshot) {
+								receipts = new ArrayList<Receipt>();
+								for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+								  Receipt value = dataSnapshot1.getValue(Receipt.class);
+								  Receipt receipt = new Receipt();
+									String category = value.getCategory();
+									String tag = value.getTags();
+									String status = value.getStatus();
+									String imgUrl = value.getImageUrl();
+									String userID = value.getUser_id();
+									Long createdAt = value.getCreatedAt();
+									Long updatedAt = value.getUpdatedAt();
 
-						@Override public void onCancelled(DatabaseError databaseError) {
+									receipt.setCategory(category);
+									receipt.setTags(tag);
+									receipt.setStatus(status);
+									receipt.setImageUrl(imgUrl);
+									receipt.setImageUrl(userID);
+									receipt.setCreatedAt(createdAt);
+									receipt.setUpdatedAt(updatedAt);
 
-						}
-					});
+									receipts.add(receipt);
+									//recyclerView.getAdapter().notifyDataSetChanged();
+								}
+								Log.w(TAG, "Returned : " + receipts);
+							}
 
-
-
-					//databaseReference.addValueEventListener(new ValueEventListener() {
-					//		@Override public void onDataChange(DataSnapshot dataSnapshot) {
-					//			receipts = new ArrayList<Receipt>();
-					//			for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-					//			  Receipt value = dataSnapshot1.getValue(Receipt.class);
-					//			  Receipt receipt = new Receipt();
-					//				String category = value.getCategory();
-					//				String tag = value.getTags();
-					//				String status = value.getStatus();
-					//				String imgUrl = value.getImageUrl();
-					//				String userID = value.getUser_id();
-					//
-					//				receipt.setCategory(category);
-					//				receipt.setTags(tag);
-					//				receipt.setStatus(status);
-					//				receipt.setImageUrl(imgUrl);
-					//				receipt.setImageUrl(userID);
-					//
-					//				Log.d(TAG, "Data returned: " + value);
-					//				receipts.add(receipt);
-					//				recyclerView.getAdapter().notifyDataSetChanged();
-					//			}
-					//		}
-					//
-					//		@Override public void onCancelled(DatabaseError databaseError) {
-					//			Log.w(TAG, "Get data Error: " + databaseError.toException());
-					//		}
-					//	});
+							@Override public void onCancelled(DatabaseError databaseError) {
+								Log.w(TAG, "Get data Error: " + databaseError.toException());
+							}
+						});
 
 
 
 					//RecyclerView.LayoutManager recycle = new GridLayoutManager(view.getContext(), 1);
 					//recyclerView.setLayoutManager(recycle);
+
+					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
+					recyclerView.setItemAnimator(new DefaultItemAnimator());
+					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+
 
             return view;
         }

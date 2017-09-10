@@ -6,6 +6,9 @@ class Receipt {
 	private String imageUrl;
 	private String status;
 	private String user_id;
+	private Long updatedAt;
+	private Long createdAt;
+
 
 	public void setCategory(String category) {
 		this.category = category;
@@ -45,5 +48,21 @@ class Receipt {
 
 	public String getUser_id() {
 		return user_id;
+	}
+
+	public Long getCreatedAt() {
+		return createdAt;
+	}
+
+	public Long getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setCreatedAt(Long createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setUpdatedAt(Long updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 }
