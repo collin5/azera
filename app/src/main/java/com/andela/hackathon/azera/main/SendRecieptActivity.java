@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -135,7 +136,7 @@ public class SendRecieptActivity extends AppCompatActivity {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 recRef.child("receipts").push().setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         downloadUrl.toString(), tagsView.getText().toString(), descriptionView.getText().toString()
-                        ));
+                        , ServerValue.TIMESTAMP.toString(), ServerValue.TIMESTAMP.toString()));
                 finish();
             }
         })
@@ -167,14 +168,18 @@ public class SendRecieptActivity extends AppCompatActivity {
         public String imageUrl;
         public String tags;
         public String description;
+        public String createdAt;
+        public String updatedAt;
 
-        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description) {
+        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description, String createdAt, String updatedAt) {
             this.category = category;
             this.status = status;
             this.user_id = user_id;
             this.imageUrl = imageUrl;
             this.tags = tags;
             this.description = description;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
         }
     }
 }
