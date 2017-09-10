@@ -114,11 +114,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 			if (Objects.equals(email.substring(email.indexOf("@") + 1), "andela.com")) {
 				firebaseAuthWithGoogle(acct);
-
+			} else {
 				Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 				Toast.makeText(LoginActivity.this, "Only Andela emails can be used!",
 						Toast.LENGTH_SHORT).show();
 				updateUI(false);
+
 			}
 
 		} else {
