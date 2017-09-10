@@ -1,6 +1,7 @@
 package com.andela.hackathon.azera.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 		holder.receipt_name.setText(
 				String.format("%s %s", receipt_list.category, receipt_list.tags));
 		holder.description.setText(receipt_list.description);
+		holder.imageUrl = receipt_list.imageUrl;
 		Picasso.with(context).load(receipt_list.imageUrl)
 				.resize(100,100)
 				.centerCrop()
@@ -46,6 +48,7 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 	}
 
 	public class MyHolder extends RecyclerView.ViewHolder {
+		String imageUrl;
 		TextView receipt_name, date_info, description;
 		ImageView receipt_img;
 
@@ -55,6 +58,17 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 			description = (TextView) itemView.findViewById(R.id.txt_description);
 			receipt_img = (ImageView) itemView.findViewById(R.id.receipt_thumb);
 			date_info = (TextView) itemView.findViewById(R.id.txt_date_created);
+
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent intent = new Intent(context, ReceiptActivity.class);
+					intent.putExtra("title", receipt_name.getText().toString());
+					intent.putExtra("description", description.getText().toString());
+					intent.putExtra("imageUrl", imageUrl);
+					context.startActivity(intent);
+				}
+			});
 
 		}
 
