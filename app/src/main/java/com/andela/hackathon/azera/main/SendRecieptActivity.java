@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -33,12 +34,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SendRecieptActivity extends AppCompatActivity {
 
     ImageView preview;
 
     EditText tagsView;
+    EditText descriptionView;
 
     Bitmap reciept = null;
 
@@ -46,7 +49,7 @@ public class SendRecieptActivity extends AppCompatActivity {
     StorageReference storageRef;
 
     DatabaseReference catRef = database.getReference("categories");
-    DatabaseReference recRef = database.getReference("receipts");
+    DatabaseReference recRef = database.getReference();
 
     ActionBar actionBar;
     AppCompatSpinner categorySpinner;
@@ -67,6 +70,7 @@ public class SendRecieptActivity extends AppCompatActivity {
 
         initCategories();
         tagsView = findViewById(R.id.reciept_tags);
+        descriptionView = findViewById(R.id.reciept_description);
 
         initActionbar();
 
@@ -82,6 +86,7 @@ public class SendRecieptActivity extends AppCompatActivity {
     void initActionbar() {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_clear);
     }
 
 
@@ -121,15 +126,15 @@ public class SendRecieptActivity extends AppCompatActivity {
         Statics.bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         // save to db
-        StorageReference recieptRef = storageRef.child("azera/media");
+        StorageReference recieptRef = storageRef.child("azera/media/receipt_".concat(Calendar.getInstance().getTime().toString()));
         UploadTask task = recieptRef.putBytes(baos.toByteArray());
 
         task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                recRef.setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        downloadUrl.toString(), tagsView.getText().toString()
+                recRef.child("receipts").push().setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        downloadUrl.toString(), tagsView.getText().toString(), descriptionView.getText().toString()
                         ));
                 finish();
             }
@@ -140,6 +145,14 @@ public class SendRecieptActivity extends AppCompatActivity {
                         Toast.makeText(SendRecieptActivity.this, "Upload failed",Toast.LENGTH_SHORT);
                     }
                 });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static class Category {
@@ -153,13 +166,15 @@ public class SendRecieptActivity extends AppCompatActivity {
         public String user_id;
         public String imageUrl;
         public String tags;
+        public String description;
 
-        public Reciept(String category, String status, String user_id, String imageUrl, String tags) {
+        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description) {
             this.category = category;
             this.status = status;
             this.user_id = user_id;
             this.imageUrl = imageUrl;
             this.tags = tags;
+            this.description = description;
         }
     }
 }

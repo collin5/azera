@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class ResultFragment extends Fragment {
 
     private View view;
     private ImageView scannedImageView;
-    private Button doneButton;
+    private FloatingActionButton doneButton;
     private Bitmap original;
     private Button originalButton;
     private Button MagicColorButton;
@@ -40,6 +41,7 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.result_layout, null);
         init();
+        makeGray();
         return view;
     }
 
@@ -55,7 +57,7 @@ public class ResultFragment extends Fragment {
         bwButton.setOnClickListener(new BWButtonClickListener());
         Bitmap bitmap = getBitmap();
         setScannedImage(bitmap);
-        doneButton = (Button) view.findViewById(R.id.doneButton);
+        doneButton = view.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new DoneButtonClickListener());
     }
 
@@ -192,6 +194,35 @@ public class ResultFragment extends Fragment {
                 dismissDialog();
             }
         }
+    }
+
+    void makeGray(){
+        showProgressDialog(getResources().getString(R.string.applying_filter));
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    transformed = ((ScanActivity) getActivity()).getGrayBitmap(original);
+                } catch (final OutOfMemoryError e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            transformed = original;
+                            scannedImageView.setImageBitmap(original);
+                            e.printStackTrace();
+                            dismissDialog();
+                        }
+                    });
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scannedImageView.setImageBitmap(transformed);
+                        dismissDialog();
+                    }
+                });
+            }
+        });
     }
 
     private class GrayButtonClickListener implements View.OnClickListener {
