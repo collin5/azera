@@ -28,6 +28,19 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
             <EditText
+                android:id="@+id/reciept_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:maxLength="100"
+                android:hint="Description"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <EditText
                 android:id="@+id/reciept_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

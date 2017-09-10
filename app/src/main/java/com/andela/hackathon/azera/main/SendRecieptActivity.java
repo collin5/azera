@@ -40,6 +40,7 @@ public class SendRecieptActivity extends AppCompatActivity {
     ImageView preview;
 
     EditText tagsView;
+    EditText descriptionView;
 
     Bitmap reciept = null;
 
@@ -47,7 +48,7 @@ public class SendRecieptActivity extends AppCompatActivity {
     StorageReference storageRef;
 
     DatabaseReference catRef = database.getReference("categories");
-    DatabaseReference recRef = database.getReference("receipts");
+    DatabaseReference recRef = database.getReference();
 
     ActionBar actionBar;
     AppCompatSpinner categorySpinner;
@@ -68,6 +69,7 @@ public class SendRecieptActivity extends AppCompatActivity {
 
         initCategories();
         tagsView = findViewById(R.id.reciept_tags);
+        descriptionView = findViewById(R.id.reciept_description);
 
         initActionbar();
 
@@ -130,8 +132,8 @@ public class SendRecieptActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                recRef.setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        downloadUrl.toString(), tagsView.getText().toString()
+                recRef.child("receipts").push().setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        downloadUrl.toString(), tagsView.getText().toString(), descriptionView.getText().toString()
                         ));
                 finish();
             }
@@ -163,13 +165,15 @@ public class SendRecieptActivity extends AppCompatActivity {
         public String user_id;
         public String imageUrl;
         public String tags;
+        public String description;
 
-        public Reciept(String category, String status, String user_id, String imageUrl, String tags) {
+        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description) {
             this.category = category;
             this.status = status;
             this.user_id = user_id;
             this.imageUrl = imageUrl;
             this.tags = tags;
+            this.description = description;
         }
     }
 }
