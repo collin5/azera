@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class ResultFragment extends Fragment {
 
     private View view;
     private ImageView scannedImageView;
-    private Button doneButton;
+    private FloatingActionButton doneButton;
     private Bitmap original;
     private Button originalButton;
     private Button MagicColorButton;
@@ -55,7 +56,7 @@ public class ResultFragment extends Fragment {
         bwButton.setOnClickListener(new BWButtonClickListener());
         Bitmap bitmap = getBitmap();
         setScannedImage(bitmap);
-        doneButton = (Button) view.findViewById(R.id.doneButton);
+        doneButton = view.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new DoneButtonClickListener());
     }
 

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/black"
     android:orientation="vertical">
 
@@ -56,15 +57,16 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/doneButton"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/bottom_background_color"
-        android:orientation="horizontal"
-        android:padding="@dimen/bottom_bar_padding"
-        android:text="@string/done" />
+        android:layout_centerHorizontal="true"
+        app:tint="#000000"
+        app:backgroundTint="#ffffff"
+        android:src="@drawable/ic_done"
+        android:padding="@dimen/bottom_bar_padding" />
 
 
     <FrameLayout
