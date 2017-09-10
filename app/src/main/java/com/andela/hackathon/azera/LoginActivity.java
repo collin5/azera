@@ -1,11 +1,14 @@
 package com.andela.hackathon.azera;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.scanlibrary.ProgressDialogFragment;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -111,9 +115,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 			if (Objects.equals(email.substring(email.indexOf("@") + 1), "andela.com")) {
 				firebaseAuthWithGoogle(acct);
 			} else {
+				Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 				Toast.makeText(LoginActivity.this, "Only Andela emails can be used!",
 						Toast.LENGTH_SHORT).show();
 				updateUI(false);
+
 			}
 
 		} else {
@@ -125,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 	private void updateUI(boolean status) {
 		if (status) {
-			mStatusText.setText("Going to change UI");
+			mStatusText.setText("");
 			Toast.makeText(LoginActivity.this, "Authentication successful",
 					Toast.LENGTH_SHORT).show();
 		} else {
@@ -134,6 +140,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	}
 
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct){
+		final ConstraintLayout layout = findViewById(R.id.layout_Signin);
+		layout.setVisibility(View.GONE);
+		final ProgressDialog dialog = ProgressDialog.show(this, "Please wait","we are logging you in ...");
+		dialog.setCancelable(true);
+		dialog.show();
 		Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 		AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
@@ -154,6 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 									Toast.LENGTH_SHORT).show();
 							updateUI(false);
 						}
+						dialog.hide();
 					}
 				});
 	}

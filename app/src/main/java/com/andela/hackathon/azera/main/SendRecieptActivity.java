@@ -1,5 +1,6 @@
 package com.andela.hackathon.azera.main;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.andela.hackathon.azera.R;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -42,6 +46,9 @@ public class SendRecieptActivity extends AppCompatActivity {
 
     EditText tagsView;
     EditText descriptionView;
+
+    ProgressBar progressBar;
+    LinearLayout layout;
 
     Bitmap reciept = null;
 
@@ -62,6 +69,10 @@ public class SendRecieptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_reciept);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        progressBar = findViewById(R.id.progress_sendReciept);
+        layout = findViewById(R.id.layout_sendReciept);
+
         storageRef = FirebaseStorage.getInstance().getReference();
 
         preview = findViewById(R.id.reciept_preview);
@@ -114,6 +125,14 @@ public class SendRecieptActivity extends AppCompatActivity {
         });
     }
 
+    void showProgress(boolean show){
+        if (show){
+            layout.setVisibility(View.GONE);
+        }else{
+            layout.setVisibility(View.VISIBLE);
+        }
+    }
+
     void upload() {
         final String cagetory = categorySpinner.getSelectedItem().toString();
 
@@ -121,6 +140,11 @@ public class SendRecieptActivity extends AppCompatActivity {
             Toast.makeText(this, "Please select category", Toast.LENGTH_SHORT);
             return;
         }
+
+        showProgress(true);
+        final ProgressDialog dialog = ProgressDialog.show(this, "Please wait ...", "Sending receipt");
+        dialog.setCancelable(false);
+        dialog.show();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Statics.bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -135,8 +159,10 @@ public class SendRecieptActivity extends AppCompatActivity {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 recRef.child("receipts").push().setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         downloadUrl.toString(), tagsView.getText().toString(), descriptionView.getText().toString()
-                        ));
+                        , ServerValue.TIMESTAMP.toString(), ServerValue.TIMESTAMP.toString()));
                 finish();
+                dialog.hide();
+                showProgress(false);
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -167,14 +193,18 @@ public class SendRecieptActivity extends AppCompatActivity {
         public String imageUrl;
         public String tags;
         public String description;
+        public String createdAt;
+        public String updatedAt;
 
-        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description) {
+        public Reciept(String category, String status, String user_id, String imageUrl, String tags, String description, String createdAt, String updatedAt) {
             this.category = category;
             this.status = status;
             this.user_id = user_id;
             this.imageUrl = imageUrl;
             this.tags = tags;
             this.description = description;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
         }
     }
 }
