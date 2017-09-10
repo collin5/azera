@@ -159,7 +159,7 @@ public class SendRecieptActivity extends AppCompatActivity {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 recRef.child("receipts").push().setValue(new Reciept(cagetory, "pending", FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         downloadUrl.toString(), tagsView.getText().toString(), descriptionView.getText().toString()
-                        , ServerValue.TIMESTAMP.toString(), ServerValue.TIMESTAMP.toString()));
+                        , Calendar.getInstance().getTime().toString(), Calendar.getInstance().getTime().toString()));
                 finish();
                 dialog.hide();
                 showProgress(false);
