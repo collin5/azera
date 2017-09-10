@@ -35,6 +35,7 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 		holder.receipt_name.setText(
 				String.format("%s %s", receipt_list.category, receipt_list.tags));
 		holder.description.setText(receipt_list.description);
+		holder.imageUrl = receipt_list.imageUrl;
 		Picasso.with(context).load(receipt_list.imageUrl)
 				.resize(100,100)
 				.centerCrop()
@@ -47,6 +48,7 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 	}
 
 	public class MyHolder extends RecyclerView.ViewHolder {
+		String imageUrl;
 		TextView receipt_name, date_info, description;
 		ImageView receipt_img;
 
@@ -61,6 +63,9 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 				@Override
 				public void onClick(View view) {
 					Intent intent = new Intent(context, ReceiptActivity.class);
+					intent.putExtra("title", receipt_name.getText().toString());
+					intent.putExtra("description", description.getText().toString());
+					intent.putExtra("imageUrl", imageUrl);
 					context.startActivity(intent);
 				}
 			});
