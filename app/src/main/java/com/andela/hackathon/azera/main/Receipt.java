@@ -9,4 +9,17 @@ class Receipt {
 	public String description;
 	public Long updatedAt;
 	public Long createdAt;
+
+	public Receipt() {
+
+	}
+
+	public Receipt(String category, String tags, String imgUrl, String status, String user_id, String description) {
+		this.category = category;
+		this.tags = tags;
+		this.imageUrl = imgUrl;
+		this.status = status;
+		this.user_id = user_id;
+		this.description = description;
+	}
 }

@@ -82,7 +82,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			private FirebaseDatabase database = FirebaseDatabase.getInstance();
 			private DatabaseReference databaseReference = database.getReference("receipts");
 			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
-			private TextView receiptName;
 
     	View view;
 
@@ -94,7 +93,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					recyclerView = (RecyclerView) view.findViewById(R.id.receipt_list);
 					linearLayoutManager = new LinearLayoutManager(view.getContext());
 					recyclerView.setLayoutManager(linearLayoutManager);
-					receiptName = (TextView) view.findViewById(R.id.txt_receipt_name);
 
 					receipts = new ArrayList<Receipt>();
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -112,7 +110,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 						}
 
 						@Override public void onCancelled(DatabaseError databaseError) {
-							Log.w(TAG, "Get data Error: " + databaseError.toException());
+							Log.w(TAG, "Database Error: " + databaseError.toException());
 						}
 					});
 
