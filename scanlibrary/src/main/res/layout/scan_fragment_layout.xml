@@ -13,6 +13,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_arrow_forward"
+        app:backgroundTint="#ffffff"
         android:padding="15dp">
     </android.support.design.widget.FloatingActionButton>
 
