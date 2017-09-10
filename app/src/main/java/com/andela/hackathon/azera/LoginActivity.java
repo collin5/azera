@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 	private void updateUI(boolean status) {
 		if (status) {
-			mStatusText.setText("Going to change UI");
+			mStatusText.setText("");
 			Toast.makeText(LoginActivity.this, "Authentication successful",
 					Toast.LENGTH_SHORT).show();
 		} else {
