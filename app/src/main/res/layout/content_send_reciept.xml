@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:clipToPadding="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.andela.hackathon.azera.main.SendRecieptActivity"
     tools:showIn="@layout/activity_send_reciept">
@@ -12,13 +14,40 @@
         android:orientation="vertical"
         android:layout_height="match_parent">
         <ImageView
+            android:id="@+id/reciept_preview"
             android:layout_width="match_parent"
+            android:scaleType="fitCenter"
             android:layout_height="200dp" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/category_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <EditText
+                android:id="@+id/reciept_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:maxLength="100"
+                android:hint="Description"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <EditText
+                android:id="@+id/reciept_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:hint="Tags"/>
+
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

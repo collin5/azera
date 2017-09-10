@@ -135,9 +135,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Statics.bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 getContentResolver().delete(uri, null, null);
 
                 // TODO: 9/9/17 call activity to upload bitmap
@@ -147,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 e.printStackTrace();
             }
         }
+        pager.setCurrentItem(1);
     }
 
 
@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     protected void onResume() {
         super.onResume();
+        pager.setCurrentItem(1);
         checkLoginStatus();
     }
 
