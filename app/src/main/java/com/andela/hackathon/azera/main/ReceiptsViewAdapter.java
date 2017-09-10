@@ -12,12 +12,12 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
-public class ApprovedReceiptsViewAdapter extends RecyclerView.Adapter<ApprovedReceiptsViewAdapter.MyHolder> {
+public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapter.MyHolder> {
 	private List<Receipt> receipts = Collections.emptyList();
 	private Context context;
-	private static final String TAG = ApprovedReceiptsViewAdapter.class.getSimpleName();
+	private static final String TAG = ReceiptsViewAdapter.class.getSimpleName();
 
-	public ApprovedReceiptsViewAdapter(List<Receipt> receipts, Context context) {
+	public ReceiptsViewAdapter(List<Receipt> receipts, Context context) {
 		this.receipts = receipts;
 		this.context = context;
 	}
@@ -55,6 +55,7 @@ public class ApprovedReceiptsViewAdapter extends RecyclerView.Adapter<ApprovedRe
 			description = (TextView) itemView.findViewById(R.id.txt_description);
 			receipt_img = (ImageView) itemView.findViewById(R.id.receipt_thumb);
 			date_info = (TextView) itemView.findViewById(R.id.txt_date_created);
+
 		}
 
 	}

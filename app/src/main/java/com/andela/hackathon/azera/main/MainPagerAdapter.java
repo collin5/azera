@@ -80,7 +80,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			private LinearLayoutManager linearLayoutManager;
 			private FirebaseDatabase database = FirebaseDatabase.getInstance();
 			private DatabaseReference databaseReference = database.getReference("receipts");
-			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
+			private ReceiptsViewAdapter receiptsViewAdapter;
 
     	View view;
 
@@ -100,8 +100,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 					Log.d(TAG, "Data created: " + receipts);
-					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, recyclerView.getContext());
-					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+					receiptsViewAdapter = new ReceiptsViewAdapter(receipts, recyclerView.getContext());
+					recyclerView.setAdapter(receiptsViewAdapter);
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
 						@Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,8 +114,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 								}
 							}
 							Log.w(TAG, "Returned : " + receipts);
-							pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-							recyclerView.setAdapter(pendingReceiptsViewAdapter);
+							receiptsViewAdapter = new ReceiptsViewAdapter(receipts, view.getContext());
+							recyclerView.setAdapter(receiptsViewAdapter);
 						}
 
 						@Override public void onCancelled(DatabaseError databaseError) {
@@ -133,7 +133,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 			private LinearLayoutManager linearLayoutManager;
 			private FirebaseDatabase database = FirebaseDatabase.getInstance();
 			private DatabaseReference databaseReference = database.getReference("receipts");
-			private PendingReceiptsViewAdapter pendingReceiptsViewAdapter;
+			private ReceiptsViewAdapter receiptsViewAdapter;
 
         View view;
 
@@ -153,8 +153,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 					Log.d(TAG, "Data created: " + receipts);
-					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, recyclerView.getContext());
-					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+					receiptsViewAdapter = new ReceiptsViewAdapter(receipts, recyclerView.getContext());
+					recyclerView.setAdapter(receiptsViewAdapter);
 
 					databaseReference.addValueEventListener(new ValueEventListener() {
 						@Override public void onDataChange(DataSnapshot dataSnapshot) {
@@ -167,8 +167,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 								}
 							}
 							Log.w(TAG, "Approved Receipts : " + receipts);
-							pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, view.getContext());
-							recyclerView.setAdapter(pendingReceiptsViewAdapter);
+							receiptsViewAdapter = new ReceiptsViewAdapter(receipts, view.getContext());
+							recyclerView.setAdapter(receiptsViewAdapter);
 						}
 
 						@Override public void onCancelled(DatabaseError databaseError) {
