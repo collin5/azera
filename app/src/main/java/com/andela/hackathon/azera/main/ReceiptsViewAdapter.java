@@ -1,6 +1,7 @@
 package com.andela.hackathon.azera.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,14 @@ public class ReceiptsViewAdapter extends RecyclerView.Adapter<ReceiptsViewAdapte
 			description = (TextView) itemView.findViewById(R.id.txt_description);
 			receipt_img = (ImageView) itemView.findViewById(R.id.receipt_thumb);
 			date_info = (TextView) itemView.findViewById(R.id.txt_date_created);
+
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent intent = new Intent(context, ReceiptActivity.class);
+					context.startActivity(intent);
+				}
+			});
 
 		}
 
