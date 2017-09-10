@@ -99,6 +99,22 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 					receipts = new ArrayList<Receipt>();
 					recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+					// TODO Remove this after testing
+					for(int i=0; i<1; i++){
+						Receipt receipt = new Receipt(
+								"TeenCode",
+								"#Nairobits",
+								"https://avatars0.githubusercontent.com/u/1342004?v=4&s=400",
+								"pending",
+								currentUser.getUid(),
+								"Some Desc");
+						receipts.add(receipt);
+					}
+
+					Log.d(TAG, "Data created: " + receipts);
+					pendingReceiptsViewAdapter = new PendingReceiptsViewAdapter(receipts, recyclerView.getContext());
+					recyclerView.setAdapter(pendingReceiptsViewAdapter);
+
 					databaseReference.addValueEventListener(new ValueEventListener() {
 						@Override public void onDataChange(DataSnapshot dataSnapshot) {
 							receipts = new ArrayList<Receipt>();

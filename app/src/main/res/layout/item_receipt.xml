@@ -21,7 +21,6 @@
           android:id="@+id/receipt_thumb"
           android:layout_width="100dp"
           android:layout_height="100dp"
-          android:src="@drawable/common_full_open_on_phone"
           />
       <TextView
           android:id="@+id/txt_receipt_name"
@@ -50,6 +49,8 @@
           android:text="TextView"
           android:textAppearance="@style/TextAppearance.AppCompat.Notification.Time"
           android:textAlignment="textEnd"
+          android:paddingRight="10dp"
+          android:paddingBottom="5dp"
           />
     </RelativeLayout>
 
