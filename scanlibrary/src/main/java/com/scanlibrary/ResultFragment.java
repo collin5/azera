@@ -41,6 +41,7 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.result_layout, null);
         init();
+        makeGray();
         return view;
     }
 
@@ -193,6 +194,35 @@ public class ResultFragment extends Fragment {
                 dismissDialog();
             }
         }
+    }
+
+    void makeGray(){
+        showProgressDialog(getResources().getString(R.string.applying_filter));
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    transformed = ((ScanActivity) getActivity()).getGrayBitmap(original);
+                } catch (final OutOfMemoryError e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            transformed = original;
+                            scannedImageView.setImageBitmap(original);
+                            e.printStackTrace();
+                            dismissDialog();
+                        }
+                    });
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scannedImageView.setImageBitmap(transformed);
+                        dismissDialog();
+                    }
+                });
+            }
+        });
     }
 
     private class GrayButtonClickListener implements View.OnClickListener {
