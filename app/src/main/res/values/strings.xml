@@ -95,5 +95,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-  <string name="login_heading">San it before you lose it!</string>
+  <string name="login_heading">Scan it before you lose it!</string>
 </resources>
