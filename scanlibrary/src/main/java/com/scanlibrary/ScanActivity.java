@@ -1,12 +1,17 @@
 package com.scanlibrary;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentCallbacks2;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 /**
  * Created by jhansi on 28/03/15.
@@ -16,6 +21,13 @@ public class ScanActivity extends Activity implements IScanner, ComponentCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.v("EXTERNAL_STORAGE","Permission is granted");
+            }else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
         setContentView(R.layout.scan_layout);
         init();
     }
