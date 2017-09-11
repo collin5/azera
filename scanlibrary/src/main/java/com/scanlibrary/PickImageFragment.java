@@ -1,8 +1,10 @@
 package com.scanlibrary;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -118,6 +121,7 @@ public class PickImageFragment extends Fragment {
         boolean isDirectoryCreated = file.getParentFile().mkdirs();
         Log.d("", "openCamera: isDirectoryCreated: " + isDirectoryCreated);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //File write logic here
             Uri tempFileUri = FileProvider.getUriForFile(getActivity().getApplicationContext(),
                     "com.scanlibrary.provider", // As defined in Manifest
                     file);
