@@ -161,7 +161,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 							receipts = new ArrayList<Receipt>();
 							for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
 								Receipt value = dataSnapshot1.getValue(Receipt.class);
-								if (value != null && value.status.equals("approved") && value.user_id.equals(
+								if (value != null && value.status.equals("accepted") && value.user_id.equals(
 										currentUser.getUid())) {
 									receipts.add(value);
 								}
