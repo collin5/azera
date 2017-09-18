@@ -26,22 +26,22 @@ An app to scan your receipt and submit them instantly in your time of convinence
     - OpenCV
 
  # Screenshots
-    ## Login screen
-    ![login screen](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.17%20PM.jpeg)
+ ## Login screen
+ ![login screen](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.17%20PM.jpeg)
     
-    ## Receipt scanning interface
-    ![camera capture](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.18%20PM.jpeg)
+## Receipt scanning interface
+![camera capture](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.18%20PM.jpeg)
     
-    ## Receipt isolator interface
-    ![isolator interface](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.19%20PM.jpeg)
+## Receipt isolator interface
+![isolator interface](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.19%20PM.jpeg)
     
-    ## Receipt submission interface
-    ![submission interface](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.19%20PM(1).jpeg)
+## Receipt submission interface
+![submission interface](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.19%20PM(1).jpeg)
     
-    ## Approved receipts view
-    ![approved receipts view](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.21%20PM.jpeg)
+## Approved receipts view
+![approved receipts view](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.21%20PM.jpeg)
     
-    ## Pending Receipts View
-    ![pending receipts](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.21%20PM(1).jpeg)
+## Pending Receipts View
+![pending receipts](https://github.com/collin5/azera/blob/master/app/release/WhatsApp%20Image%202017-09-18%20at%204.46.21%20PM(1).jpeg)
     
  
